@@ -84,6 +84,10 @@ def pushSomething(lua, something):
         pushTable(lua, something)
         return
 
+    if isinstance(something, list):
+        pushArray(lua, something)
+        return
+
     for pythonClass in pushFunctionByPythonClass:
         if isinstance(something, pythonClass):
             pushFunctionByPythonClass[pythonClass](something)
@@ -169,6 +173,13 @@ def pushTable(lua, table):
     for k, v in table.items():
         pushSomething(lua, k)
         pushSomething(lua, v)
+        lua.setTable(-3)
+
+def pushArray(lua, array):
+    lua.newTable()
+    for idx, item in enumerate(array):
+        pushSomething(lua, idx + 1) # 1 indexed
+        pushSomething(lua, item)
         lua.setTable(-3)
 
 def popTable(lua):

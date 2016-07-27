@@ -13,7 +13,9 @@ import platform
 from setuptools import setup
 from setuptools import Extension
 
-torch_install_dir = os.getenv('TORCH_INSTALL')
+HOME = os.getenv('HOME')
+
+torch_install_dir = HOME + "/torch/install" #os.getenv('TORCH_INSTALL')
 osfamily = platform.uname()[0]
 print('torch_install:', torch_install_dir)
 print('os family', osfamily)
@@ -129,8 +131,8 @@ for cython_source in cython_sources:
     cythoned_filepath = cython_source.replace('.pyx', '.cpp')
     basename = os.path.basename(cython_source).replace('.pyx', '')
     source_name = cythoned_filepath
-    if not os.path.isfile(cythoned_filepath) or get_file_datetime(cythoned_filepath) < get_file_datetime(cython_source):
-        source_name = cython_source
+    #if not os.path.isfile(cythoned_filepath) or get_file_datetime(cythoned_filepath) < get_file_datetime(cython_source):
+    #    source_name = cython_source
     ext_modules.append(
         Extension(basename,
                   sources=[source_name],
